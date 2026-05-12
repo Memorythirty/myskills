@@ -12,8 +12,8 @@
 
 ```
 步骤 1: 安装可自动安装的 Skills（4 个）
-步骤 2: 配置 GitHub 连接（可选）
-步骤 3: 配置 Gitee 连接（可选）
+步骤 2: 配置 GitHub 连接
+步骤 3: 配置 Gitee 连接
 步骤 4: 验证安装
 ```
 
@@ -38,103 +38,58 @@ npx skills add softaworks/agent-toolkit@ship-learn-next -g -y
 
 ---
 
-## 步骤 2: 配置 GitHub 连接（可选）
+## 步骤 2: 配置 GitHub 连接
 
-如果你需要使用 GitHub MCP，请按以下步骤操作：
+### 2.1 安装 github-connect skill
 
-### 2.1 获取 GitHub Token
+```bash
+git clone https://github.com/Memorythirty/connect-github-mcp-skill.git
+cd connect-github-mcp-skill
+```
+
+复制文件：
+- 复制斜杠命令文件到 `~/.claude/commands/`（支持 `/连接github` 和 `/github-connect`）
+- 复制配置和文档文件到 `~/.claude/skills/`
+
+在 Claude Code 中输入 `/连接github`，AI 将自动引导完成 GitHub MCP 连接。
+
+### 2.2 获取 GitHub Token
 
 1. 访问 https://github.com/settings/tokens
 2. 点击 "Generate new token" → "Classic"
 3. 勾选权限：`repo`、`read:org`、`workflow`
 4. 点击 "Generate token" 并复制
 
-### 2.2 安装配置
-
-在 PowerShell 中执行：
-
-```powershell
-# 设置 Secret
-docker mcp secret set github.personal_access_token=<你的Token>
-
-# 安装模板
-docker mcp template use dev-workflow --name dev-workflow
-
-# 全局连接
-docker mcp client connect claude-code --profile dev_workflow --global
-```
-
-在 Claude Code 中执行：
-```
-mcp-activate-profile: dev_workflow
-```
-
-重载 VSCode：`Ctrl+Shift+P` → `Developer: Reload Window`
-
 ### 2.3 验证
 
-在 Claude Code 中输入 `/github connect`
+在 Claude Code 中请求获取 GitHub 用户信息，确认连接成功。
 
 ---
 
-## 步骤 3: 配置 Gitee 连接（可选）
+## 步骤 3: 配置 Gitee 连接
 
-如果你需要使用 Gitee MCP，请按以下步骤操作：
+### 3.1 安装 gitee-connect skill
 
-### 3.1 获取 Gitee Token
+```bash
+git clone https://github.com/Memorythirty/connect-gitee-mcp-skill.git
+cd connect-gitee-mcp-skill
+```
+
+复制文件：
+- 复制斜杠命令文件到 `~/.claude/commands/`（支持 `/gitee-connect`）
+- 复制配置和文档文件到 `~/.claude/skills/`
+
+在 Claude Code 中输入 `/gitee-connect`，AI 将自动引导完成 Gitee MCP 连接。
+
+### 3.2 获取 Gitee Token
 
 1. 访问 https://gitee.com/profile/personal_access_tokens
 2. 填写描述，勾选权限：`projects`、`issues`、`pull_requests`、`notifications`
 3. 点击 "创建" 并复制 Token
 
-### 3.2 创建配置文件
+### 3.3 验证
 
-在用户目录下创建 `.mcp.json`：
-
-**Windows**: `C:\Users\<你的用户名>\.mcp.json`
-**Mac/Linux**: `~/.mcp.json`
-
-```json
-{
-  "mcpServers": {
-    "gitee": {
-      "url": "https://api.gitee.com/mcp",
-      "headers": {
-        "Authorization": "Bearer <你的Token>"
-      }
-    }
-  }
-}
-```
-
-### 3.3 启用 Gitee
-
-编辑 `~/.claude/settings.local.json`，在 `enabledMcpjsonServers` 中添加 "gitee"：
-
-```json
-{
-  "enabledMcpjsonServers": [
-    "github",
-    "gitee"
-  ]
-}
-```
-
-如果文件不存在，创建一个空的：
-```json
-{
-  "permissions": {
-    "allow": []
-  },
-  "enabledMcpjsonServers": [
-    "gitee"
-  ]
-}
-```
-
-### 3.4 验证
-
-重载 VSCode 后，在 Claude Code 中输入 `/gitee connect`
+在 Claude Code 中请求获取 Gitee 用户信息，确认连接成功。
 
 ---
 
@@ -146,14 +101,14 @@ mcp-activate-profile: dev_workflow
 |------|----------|
 | `/find-skills` | 能够搜索 skills |
 | `/review` | 能够列出 PR（需 GitHub 连接） |
-| `/gitee connect` | 显示连接状态（需 Gitee 连接） |
-| `/github connect` | 显示连接状态（需 GitHub 连接） |
+| `/gitee-connect` | 检查 Gitee MCP 连接状态 |
+| `/连接github` 或 `/github-connect` | 检查 GitHub MCP 连接状态 |
 
 ---
 
 ## Skills 清单
 
-### 可自动安装（4 个）
+### 可自动安装（6 个）
 
 | Skill | 安装命令 |
 |-------|----------|
@@ -164,12 +119,12 @@ mcp-activate-profile: dev_workflow
 | find-skills | `npx skills add vercel-labs/skills@find-skills -g -y` |
 | ship-learn-next | `npx skills add softaworks/agent-toolkit@ship-learn-next -g -y` |
 
-### 需手动配置（2 个）
+### GitHub 仓库安装（2 个）
 
-| Skill | 前置条件 |
-|-------|----------|
-| github-connect | Docker Desktop + GitHub Token |
-| gitee-connect | Gitee Token + .mcp.json 配置 |
+| Skill | 仓库 | 指令 |
+|-------|------|------|
+| github-connect | https://github.com/Memorythirty/connect-github-mcp-skill | `/连接github` |
+| gitee-connect | https://github.com/Memorythirty/connect-gitee-mcp-skill | `/gitee-connect` |
 
 ### 内置 Skills（7 个，无需安装）
 
@@ -185,27 +140,6 @@ mcp-activate-profile: dev_workflow
 
 ---
 
-## 快速复制命令
-
-### 一键安装所有可自动安装的 Skills
-
-```bash
-npx skills add appautomaton/document-SKILLs -g -y && \
-npx skills add vercel-labs/skills@find-skills -g -y && \
-npx skills add softaworks/agent-toolkit@ship-learn-next -g -y
-```
-
-### GitHub 连接快速配置（PowerShell）
-
-```powershell
-# 替换 <TOKEN> 为你的 GitHub Token
-docker mcp secret set github.personal_access_token=<TOKEN>
-docker mcp template use dev-workflow --name dev-workflow
-docker mcp client connect claude-code --profile dev_workflow --global
-```
-
----
-
 ## 故障排查
 
 | 问题 | 解决方案 |
@@ -218,5 +152,5 @@ docker mcp client connect claude-code --profile dev_workflow --global
 
 ---
 
-**最后更新**: 2026-05-12
+**最后更新**: 2026-05-13
 **维护者**: Memorythirty
