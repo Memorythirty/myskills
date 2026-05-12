@@ -10,36 +10,29 @@
 - 验证连接是否成功
 
 ## 安装来源
-- 自定义 skill（基于 Docker MCP Gateway）
+- 仓库地址: https://github.com/Memorythirty/connect-github-mcp-skill
 
-## 安装方式
-1. 安装并启动 Docker Desktop
+## 安装方式（AI 可自动执行）
 
-2. 获取 GitHub Personal Access Token（Classic）：
-   - 访问 https://github.com/settings/tokens
-   - 勾选 repo、read:org、workflow 权限
+### 方式一：使用斜杠命令（推荐）
+1. 克隆仓库：`git clone https://github.com/Memorythirty/connect-github-mcp-skill.git`
+2. 复制 `连接github.md` 到 `~/.claude/commands/`（命令名：`/连接github`）
+3. 复制 `connect-github-mcp.json` 和 `connect-github-mcp.md` 到 `~/.claude/skills/`
+4. 在 Claude Code 中输入 `/连接github`
 
-3. 设置 Secret：
-   ```powershell
-   docker mcp secret set github.personal_access_token=<your_token>
-   ```
+### 方式二：AI 自动配置（Docker MCP）
+1. 检查 Docker Desktop 是否运行：`docker info 2>&1 | Select-String -Pattern 'Server Version'`
+2. 检查 Secret：`docker mcp secret ls`（需包含 github.personal_access_token）
+3. 检查 Profile：`docker mcp profile list`（需包含 dev_workflow）
+4. 检查连接：`docker mcp client ls --global`（claude-code 需为 connected）
+5. 缺失步骤自动引导用户补充（Token、dev-workflow模板、全局连接）
 
-4. 安装模板：
-   ```powershell
-   docker mcp template use dev-workflow --name dev-workflow
-   ```
-
-5. 全局连接：
-   ```powershell
-   docker mcp client connect claude-code --profile dev_workflow --global
-   ```
-
-6. 激活 Profile：在 Claude Code 中执行 `mcp-activate-profile: dev_workflow`
-
-7. 重载 VSCode（Ctrl+Shift+P → Developer: Reload Window）
+### Token 获取
+- 访问 https://github.com/settings/tokens
+- 创建 Classic Token，勾选: repo, read:org, workflow
 
 ## 指令
-- `/github connect` - 检查并确保 GitHub MCP 连接正常
+- `/连接github` - 检查并确保 GitHub MCP 连接正常
 
 ## 可用工具
 | 工具 | 功能 |
