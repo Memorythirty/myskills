@@ -6,6 +6,8 @@
 
 | 分类 | Skill | 作用 | 安装来源 |
 |------|-------|------|----------|
+| 平台连接 | github-connect | 保证 GitHub MCP 连接正常 | 自定义 |
+| 平台连接 | gitee-connect | 保证 Gitee MCP 连接正常 | 自定义 |
 | 文档处理 | docx | Word 文档处理 | appautomaton/document-SKILLs |
 | 文档处理 | pdf | PDF 文档处理 | appautomaton/document-SKILLs |
 | 文档处理 | pptx | PowerPoint 文档处理 | appautomaton/document-SKILLs |
@@ -24,6 +26,10 @@
 
 ```
 skills/
+├── 平台连接-github-connect/
+│   └── README.md
+├── 平台连接-gitee-connect/
+│   └── README.md
 ├── 文档处理-docx/
 │   └── README.md
 ├── 文档处理-pdf/
@@ -73,6 +79,10 @@ npx skills add softaworks/agent-toolkit@ship-learn-next -g -y
 ## Skills 使用指令
 
 ```bash
+# 平台连接
+/github connect   # 检查 GitHub MCP 连接
+/gitee connect    # 检查 Gitee MCP 连接
+
 # 文档处理
 /docx          # 处理 Word 文档
 /pdf           # 处理 PDF 文档
